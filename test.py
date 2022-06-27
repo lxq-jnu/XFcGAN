@@ -96,7 +96,7 @@ class ImageSequence(data.Dataset):
 
 
 def _crop(img,ow,oh):
-    #ow, oh = raw_img.size #ow是水平方向，oh是竖直方向
+   
     temp_arr = img[:,:,:oh,:ow]
 
     return temp_arr
@@ -143,7 +143,7 @@ device = torch.device("cuda:0")
 net_G  = networks.define_for_contrast().cuda()
 
 
-model_G_path = "checkpoint/latest_net_En.pth"
+model_G_path = "models/latest_net_En.pth"
 
 state_dict_G = torch.load(model_G_path, map_location=str(device))
 load_(net_G,state_dict_G)
