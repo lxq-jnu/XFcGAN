@@ -8,7 +8,7 @@ Project page of  "XFcGAN: A self-supervised adversarial strategy for infrared an
 
 ### Usage
 ```bash
-# Use the following command to test our method on your test imags. The fused results will be saved in ./results/
+# Use the following command to test our method on your test images. The fused results will be saved in ./results/
 python main.py
 ```
 
