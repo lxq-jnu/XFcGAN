@@ -8,8 +8,8 @@ Project page of  "XFcGAN: A self-supervised adversarial strategy for infrared an
 
 ### Usage
 ```bash
-# Replicate our method on fusing IR-VIS images
-python test.py
+# Use the following command to test our method on your test imags. The fused results will be saved in ./results/
+python main.py
 ```
 
 
