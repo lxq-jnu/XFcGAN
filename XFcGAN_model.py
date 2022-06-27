@@ -80,7 +80,7 @@ class XFcGANModel(BaseModel):
             self.criterionSSIM_mod = networks.modified_SSIM_Loss2()
             if not opt.no_vgg_loss:
                 self.criterionVGG = networks.VGGLoss(self.gpu_ids)
-            self.criterionSSIM = networks.SSIM()  # SSIM 结构相似性损失作为图像的重构损失
+            self.criterionSSIM = networks.SSIM()  
             self.criterionL1 = torch.nn.L1Loss()
             self.criterionTV = networks.TVLoss()
             # initialize optimizers; schedulers will be automatically created by function <BaseModel.setup>.
@@ -227,20 +227,19 @@ class XFcGANModel(BaseModel):
 
 
 class LaplacianConv(nn.Module):
-    # 仅有一个参数，通道，用于自定义算子模板的通道
+
     def __init__(self, channels=1):
         super().__init__()
         self.channels = channels
         kernel = [[0, 1, 0],
                   [1, -4, 1],
                   [0, 1, 0]]
-        kernel = torch.FloatTensor(kernel).unsqueeze(0).unsqueeze(0)  # 扩展到3个维度
-        kernel = np.repeat(kernel, self.channels, axis=0)  # 3个通道都是同一个算子
-        self.weight = nn.Parameter(data=kernel, requires_grad=False)  # 不允许求导更新参数，保持常量
+        kernel = torch.FloatTensor(kernel).unsqueeze(0).unsqueeze(0)  
+        kernel = np.repeat(kernel, self.channels, axis=0)  
+        self.weight = nn.Parameter(data=kernel, requires_grad=False)  
 
     def __call__(self, x):
-        # 第一个参数为输入，由于这里只是测试，随便打开的一张图只有3个维度，pytorch需要处理4个维度的样本，因此需要添加一个样本数量的维度
-        # padding2是为了能够照顾到边角的元素
+   
         self.weight.data = self.weight.data.to(x.device)
         x = F.conv2d(x, self.weight, padding=1, groups=self.channels)
         return x
